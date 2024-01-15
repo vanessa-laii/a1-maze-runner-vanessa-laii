@@ -41,29 +41,15 @@ public class Main {
         } catch(Exception e) {
             logger.error("/!\\ An error has occured /!\\");
         }
+        Maze maze = new Maze(args);
+        Control controls = new Control(args);
+        VerifyPath verify = new VerifyPath(args);
+        Path path = new Path(args);
+
         logger.info("**** Computing path");
         logger.info("PATH NOT COMPUTED");
         logger.info("** End of MazeRunner");
     }
-
-    public static String pathForward(){
-        return "F";
-    }
-    
-    public static String pathRight(){
-        return "R";
-    }
-
-    public static String pathLeft(){
-        return "L";
-    }
-    
-    public static String factorizedPath(){
-        return " ";
-    }
-
-    //constructor path
-    public
 }
 
 
