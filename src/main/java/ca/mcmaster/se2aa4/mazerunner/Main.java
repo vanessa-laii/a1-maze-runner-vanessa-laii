@@ -15,6 +15,7 @@ public class Main {
 
     private static final Logger logger = LogManager.getLogger();
 
+
     public static void main(String[] args) {
         logger.info("** Starting Maze Runner");
         Options options = new Options();
@@ -40,8 +41,15 @@ public class Main {
         } catch(Exception e) {
             logger.error("/!\\ An error has occured /!\\");
         }
+        Maze maze = new Maze(args);
+        Control controls = new Control(args);
+        VerifyPath verify = new VerifyPath(args);
+        Path path = new Path(args);
+
         logger.info("**** Computing path");
         logger.info("PATH NOT COMPUTED");
         logger.info("** End of MazeRunner");
     }
 }
+
+
