@@ -17,8 +17,6 @@ public class Configuration {
 
     public Configuration(String[] args){
 
-
-
         try{
             Options options = new Options();
             options.addOption("i", true, "option reaction to i");

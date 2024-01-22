@@ -14,10 +14,14 @@ public class Main {
         
         Configuration config = new Configuration(args);
         MazeExplorer explorer = new MazeExplorer();
-        
 
         logger.info("**** Computing path");
-        logger.info("PATH NOT COMPUTED");
+
+        String path = explorer.canonicalPath();
+
+        
+        System.out.println("The Canonical Path is " + path);
+
         logger.info("** End of MazeRunner");
     }
 
