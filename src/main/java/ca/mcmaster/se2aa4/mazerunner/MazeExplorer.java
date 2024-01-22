@@ -38,4 +38,5 @@ public class MazeExplorer {
     public String Left(){
         return "L";
     }
+    
 }
