@@ -42,7 +42,7 @@ public class Configuration {
         }
 
         catch(Exception e) {
-            logger.error("/!\\ An error has occured /!\\");
+            logger.error("/!\\ An error has occurred /!\\");
         }
 
 
@@ -52,3 +52,4 @@ public class Configuration {
 
 
 }
+
