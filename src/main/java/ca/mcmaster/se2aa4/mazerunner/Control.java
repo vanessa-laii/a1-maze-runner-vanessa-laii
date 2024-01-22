@@ -14,5 +14,10 @@ public class Control {
     public static String Left(){
         return "L";
     }
+<<<<<<< HEAD
 }
 
+=======
+
+}
+>>>>>>> refs/remotes/origin/main
