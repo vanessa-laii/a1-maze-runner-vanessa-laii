@@ -8,16 +8,13 @@ public class MazeExplorer {
     } 
 
     public String canonicalPath(){
-        return " ";
+        return "FFFFF";
     }
 
     public String factorizedPath(){
-        return " ";
+        return "5F";
     }
 
-    public boolean VerifyInputPath(){
-        return false;
-    }
 
     public boolean isEntrance(){
         return false;
