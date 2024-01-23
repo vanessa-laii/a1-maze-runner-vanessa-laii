@@ -18,9 +18,12 @@ public class Main {
         logger.info("**** Computing path");
 
         String path = explorer.canonicalPath();
+        String facPath = explorer.factorizedPath();
 
         
         System.out.println("The Canonical Path is " + path);
+        System.out.println("The Factorized Path is " + facPath);
+
 
         logger.info("** End of MazeRunner");
     }
