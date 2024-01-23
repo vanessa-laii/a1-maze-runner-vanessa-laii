@@ -24,6 +24,9 @@ public class Main {
         System.out.println("The Canonical Path is " + path);
         System.out.println("The Factorized Path is " + facPath);
 
+        VerifyPath verify = new VerifyPath();
+        Boolean checkPath = verify.Verifying();
+        System.out.println("The inputed path is " + checkPath);
 
         logger.info("** End of MazeRunner");
     }
