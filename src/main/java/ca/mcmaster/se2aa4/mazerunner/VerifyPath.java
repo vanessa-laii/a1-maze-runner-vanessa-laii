@@ -26,6 +26,16 @@ public class VerifyPath {
     //first need factorized to canonical in case they enter factorial 
 
 
+    //path verifying: reverse logic 
+        // checking if its a wall
+        //check is character in string F , if RL, change orientation to F(move forward 1 and checked if that location is wall)
+            //if its a wall break
+
+            //get info from main
+
+            //ex. this.mazeInputPath = path
+
+            //WE and EW
 }
 
-
+//am i going through a wall and am i at the exit

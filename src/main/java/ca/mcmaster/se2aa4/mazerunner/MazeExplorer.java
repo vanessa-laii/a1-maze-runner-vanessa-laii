@@ -10,22 +10,36 @@ public class MazeExplorer {
     private int EntranceRow;
     private int ExitColumn;
     private int ExitRow;
-    private String canonicalPath;
-    private String factorizedPath;
+    private String canonicalPath="";
+    private String factorizedPath = "";
 
-    public String getCanonicalPath(){
-        return canonicalPath;
+    public void getCanonicalPath(){
+        System.out.println("The canonical path is " + canonicalPath);
     }
 
-    private void findFactorized(){
+    public void getFactorizedPath(){
+        int count = 1;
+        char currentChar = 'F';
+        for (int i= 1; i< canonicalPath.length(); i++){
+            if (canonicalPath.charAt(i) == currentChar){
+                count++;
+            }
+            else{
+                factorizedPath += Integer.toString(count);
+                factorizedPath += currentChar;
+                factorizedPath += " ";
+
+                count = 1; 
+                currentChar = canonicalPath.charAt(i);
+            }
+        }
+        factorizedPath += Integer.toString(count);
+        factorizedPath += currentChar;
+
+        System.out.println("The factorized path is " + factorizedPath);
 
     }
 
-    public String getFactorizedOPath(){
-        return factorizedPath;
-    }
-
-    // here the player will move across the maze in the direction
     
     private void getRight(){
         switch (orientation){
@@ -64,32 +78,23 @@ public class MazeExplorer {
 
 
     private void moveForward(){
-        if (orientation == 'N'){
-            row--;
-        }
-        else if (orientation == 'E'){
-            column++;
-        }
-        else if (orientation == 'S'){
-            row++;
-        }
-        else { //'W'
-            column--;
-        }
+        if (orientation == 'N') row--;
+        else if (orientation == 'E') column++;
+        else if (orientation == 'S') row++;
+        else column--;
     }
 
-    private void findEntrance(char[][] mazeArray){
-        //array to store the Entrance Row and Exit Row
+    private void entrance(char[][] mazeArray){
         for (int row = 0; row < mazeArray.length; row ++){
             if (mazeArray[row][0] != '#'){
                 EntranceRow = row;
                 break;
             }
         }
-
     }
-    private void findExit(char[][] mazeArray){
-        column = mazeArray[0].length -1;
+    private void exit(char[][] mazeArray){
+        column = mazeArray[0].length -1 ;
+
         for (int row =0; row < mazeArray.length; row ++){
             if (mazeArray[row][column] != '#'){
                 ExitRow = row;
@@ -102,102 +107,57 @@ public class MazeExplorer {
     
     
     private boolean lookRight(char[][] mazeArray){
-        if (orientation == 'N'){
-            if (mazeArray[row][column+1] == '#'){
-                return false;
-            }
-        }
-        else if (orientation == 'E'){
-            if (mazeArray[row+1][column] == '#'){
-                return false;
-            }
-        }
-        else if (orientation == 'S'){
-            if (mazeArray[row][column-1] == '#'){
-                return false;
-            }
-        }        
-        else if (orientation == 'W'){
-            if (mazeArray[row-1][column] == '#'){
-                return false;
-            }
-        }
-
+        if ((orientation == 'N') && (mazeArray[row][column+1] == '#') )
+            return false;
+        else if ((orientation == 'E') && (mazeArray[row+1][column] == '#'))
+            return false;
+        else if ((orientation == 'S') && (mazeArray[row][column-1] == '#'))
+            return false;
+        else if ((orientation == 'W') && (mazeArray[row-1][column] == '#'))
+            return false;
         return true;
-        
     }
 
     private boolean lookForward(char[][] mazeArray){
-        if (orientation == 'N'){
-            if (mazeArray[row-1][column] == '#'){
-                return false;
-            }
-        }
-        else if (orientation == 'E'){
-            if (mazeArray[row][column+1] == '#'){
-                return false;
-            }
-        }
-        else if (orientation == 'S'){
-            if (mazeArray[row+1][column] == '#'){
-                return false;
-            }
-        }        
-        else if (orientation == 'W'){
-            if (mazeArray[row][column-1] == '#'){
-                return false;
-            }
-        }
-
-        return true;
-        
+        if ((orientation == 'N') && (mazeArray[row-1][column] == '#') )
+            return false;
+        else if ((orientation == 'E') && (mazeArray[row][column+1] == '#'))
+            return false;
+        else if ((orientation == 'S') && (mazeArray[row+1][column] == '#'))
+            return false;
+        else if ((orientation == 'W') && (mazeArray[row][column-1] == '#'))
+            return false;
+        return true;        
     }
 
     private boolean lookLeft(char[][] mazeArray){
-        if (orientation == 'N'){
-            if (mazeArray[row][column-1] == '#'){
-                return false;
-            }
-        }
-        else if (orientation == 'E'){
-            if (mazeArray[row-1][column] == '#'){
-                return false;
-            }
-        }
-        else if (orientation == 'S'){
-            if (mazeArray[row][column+1] == '#'){
-                return false;
-            }
-        }        
-        else if (orientation == 'W'){
-            if (mazeArray[row+1][column] == '#'){
-                return false;
-            }
-        }
-
-        return true;
-        
+        if ((orientation == 'N') && (mazeArray[row][column-1] == '#') )
+            return false;
+        else if ((orientation == 'E') && (mazeArray[row-1][column] == '#'))
+            return false;
+        else if ((orientation == 'S') && (mazeArray[row][column+1] == '#'))
+            return false;
+        else if ((orientation == 'W') && (mazeArray[row+1][column] == '#'))
+            return false;
+        return true;               
     }
 
 
 
     public void traverse(char[][] mazeArray){
-        findEntrance(mazeArray);
-        findExit(mazeArray);
+        entrance(mazeArray);
+        exit(mazeArray);
 
         row = EntranceRow;
         column = EntranceColumn;
-        canonicalPath = "";
 
 
         while(row != ExitRow || column != ExitColumn ){
-            System.out.print(orientation);
-            System.out.println(" ");
             
-            if ( lookRight(mazeArray) ) {
+            if (lookRight(mazeArray)) {
                 getRight();
-                moveForward();
                 canonicalPath = canonicalPath + "R";
+                moveForward();
                 canonicalPath = canonicalPath + "F";
             }
             else if ( lookForward(mazeArray) ) {
@@ -206,8 +166,8 @@ public class MazeExplorer {
             }
             else if ( lookLeft(mazeArray) ) {
                 getLeft();
-                moveForward();
                 canonicalPath = canonicalPath + "L";
+                moveForward();
                 canonicalPath = canonicalPath + "F";
             }
             else {
@@ -218,6 +178,9 @@ public class MazeExplorer {
                 canonicalPath = canonicalPath + "F";
             }
         }
+
+        getCanonicalPath();
+        getFactorizedPath();
         
     }
     

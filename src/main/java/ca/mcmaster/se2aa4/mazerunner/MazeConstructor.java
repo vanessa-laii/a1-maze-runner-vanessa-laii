@@ -17,16 +17,14 @@ public class MazeConstructor{
 
     private static final Logger logger = LogManager.getLogger();
 
-
-    public void MazeBuilder(String filePath){
+    public void mazeBuilder(String filePath){
         int height = getHeight(filePath);
         int width = getWidth(filePath);
+        int row = 0;
 
         char [][] maze = new char [height][width];
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))){
-            int row = 0;
-
             String line;
             while ((line = reader.readLine())!= null) {
                 for (int column = 0; column < width; column++) {
@@ -36,9 +34,7 @@ public class MazeConstructor{
                     else if (line.charAt(column) == '#') {
                         maze[row][column] = '#';
                     }
-                    System.out.println(column);
                 }
-                System.out.println(row);
                 row++;
             }
 
@@ -48,35 +44,27 @@ public class MazeConstructor{
             logger.error("/!\\ An error has occurred /!\\", e);
         }
         this.mazeArray = maze;
-
     }
 
     public int getWidth(String filePath){
         int width = 0;
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(filePath));
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))){
             width = reader.readLine().length();
         }
-    
         catch (IOException e) {
             logger.error("/!\\ An error has occurred /!\\", e);
         }
-        System.out.println(width);
         return width;
     }
 
     public int getHeight(String filePath) {
         int height = 0;
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            while (reader.readLine() != null) {
-                height++;
-            }
-            System.out.println(height);
+            while (reader.readLine() != null) height++;
         } catch (IOException e) {
             logger.error("/!\\ An error has occurred /!\\", e);
         }
         return height;
-        
     }
 
 }
