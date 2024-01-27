@@ -3,14 +3,14 @@ package ca.mcmaster.se2aa4.mazerunner;
 
 public class MazeExplorer {
 
-    private int column;
-    private int row;
-    private char orientation = 'E';
-    private int EntranceColumn = 0;
-    private int EntranceRow;
-    private int ExitColumn;
-    private int ExitRow;
-    private String canonicalPath="";
+    private static int column;
+    private static int row;
+    private static char orientation = 'E';
+    private static int EntranceColumn = 0;
+    private static int EntranceRow;
+    private static int ExitColumn;
+    private static int ExitRow;
+    private String canonicalPath = "";
     private String factorizedPath = "";
 
     public void getCanonicalPath(){
@@ -37,11 +37,10 @@ public class MazeExplorer {
         factorizedPath += currentChar;
 
         System.out.println("The factorized path is " + factorizedPath);
-
     }
 
     
-    private void getRight(){
+    private void turnRight(){
         switch (orientation){
             case 'N':
                 orientation = 'E';
@@ -58,7 +57,7 @@ public class MazeExplorer {
         }
     }
 
-    private void getLeft(){
+    private void turnLeft(){
         switch (orientation){
             case 'N':
                 orientation = 'W';
@@ -77,7 +76,7 @@ public class MazeExplorer {
 
 
 
-    private void moveForward(){
+    private void forward(){
         if (orientation == 'N') row--;
         else if (orientation == 'E') column++;
         else if (orientation == 'S') row++;
@@ -105,41 +104,44 @@ public class MazeExplorer {
     }
     
     
-    
-    private boolean lookRight(char[][] mazeArray){
-        if ((orientation == 'N') && (mazeArray[row][column+1] == '#') )
-            return false;
-        else if ((orientation == 'E') && (mazeArray[row+1][column] == '#'))
-            return false;
-        else if ((orientation == 'S') && (mazeArray[row][column-1] == '#'))
-            return false;
-        else if ((orientation == 'W') && (mazeArray[row-1][column] == '#'))
-            return false;
-        return true;
+    private static char lookRight(char[][] mazeArray){
+        if (orientation == 'N')
+            return mazeArray[row][column+1];
+        else if (orientation == 'E')
+            return mazeArray[row+1][column];
+        else if (orientation == 'S')
+            return mazeArray[row][column-1];
+        else if (orientation == 'W')
+            return mazeArray[row-1][column];
+        else
+            return mazeArray[row][column];
     }
 
-    private boolean lookForward(char[][] mazeArray){
-        if ((orientation == 'N') && (mazeArray[row-1][column] == '#') )
-            return false;
-        else if ((orientation == 'E') && (mazeArray[row][column+1] == '#'))
-            return false;
-        else if ((orientation == 'S') && (mazeArray[row+1][column] == '#'))
-            return false;
-        else if ((orientation == 'W') && (mazeArray[row][column-1] == '#'))
-            return false;
-        return true;        
+    private static char lookForward(char[][] mazeArray){
+        if (orientation == 'N')
+            return mazeArray[row-1][column];
+        else if (orientation == 'E')
+            return mazeArray[row][column+1];
+        else if (orientation == 'S')
+            return mazeArray[row+1][column];
+        else if (orientation == 'W')
+            return mazeArray[row][column-1];
+        else
+            return mazeArray[row][column];
     }
 
-    private boolean lookLeft(char[][] mazeArray){
-        if ((orientation == 'N') && (mazeArray[row][column-1] == '#') )
-            return false;
-        else if ((orientation == 'E') && (mazeArray[row-1][column] == '#'))
-            return false;
-        else if ((orientation == 'S') && (mazeArray[row][column+1] == '#'))
-            return false;
-        else if ((orientation == 'W') && (mazeArray[row+1][column] == '#'))
-            return false;
-        return true;               
+
+    private static char lookLeft(char[][] mazeArray){
+        if (orientation == 'N')
+            return mazeArray[row][column-1];
+        else if (orientation == 'E')
+            return mazeArray[row-1][column];
+        else if (orientation == 'S')
+            return mazeArray[row][column+1];
+        else if (orientation == 'W')
+            return mazeArray[row+1][column];
+        else
+            return mazeArray[row][column];
     }
 
 
@@ -154,27 +156,27 @@ public class MazeExplorer {
 
         while(row != ExitRow || column != ExitColumn ){
             
-            if (lookRight(mazeArray)) {
-                getRight();
+            if (lookRight(mazeArray) != '#') {
+                turnRight();
                 canonicalPath = canonicalPath + "R";
-                moveForward();
+                forward();
                 canonicalPath = canonicalPath + "F";
             }
-            else if ( lookForward(mazeArray) ) {
-                moveForward();
+            else if ( lookForward(mazeArray) != '#' ) {
+                forward();
                 canonicalPath = canonicalPath + "F";
             }
-            else if ( lookLeft(mazeArray) ) {
-                getLeft();
+            else if ( lookLeft(mazeArray) != '#' ) {
+                turnLeft();
                 canonicalPath = canonicalPath + "L";
-                moveForward();
+                forward();
                 canonicalPath = canonicalPath + "F";
             }
             else {
-                getRight();
-                getRight();
+                turnRight();
+                turnRight();
                 canonicalPath = canonicalPath + "RR";
-                moveForward();
+                forward();
                 canonicalPath = canonicalPath + "F";
             }
         }
@@ -182,6 +184,5 @@ public class MazeExplorer {
         getCanonicalPath();
         getFactorizedPath();
         
-    }
-    
+    } 
 }
