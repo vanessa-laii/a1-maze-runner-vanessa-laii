@@ -10,31 +10,34 @@ import org.apache.commons.cli.Options;
 public class Configuration {
     private static final Logger logger = LogManager.getLogger();
 
-    public static void Configure(String[] args){
-        logger.info("** Starting Maze Runner");
-        
-        Configuration config = new Configuration();
-        config.getMazeFile(args);
-        config.getFilename();
-        MazeExplorer explorer = new MazeExplorer();
-        MazeConstructor maze = new MazeConstructor();
-        logger.info("**** Computing path");
+    private String filename;
+    public String getFileName(){
+        return filename;
+    }
+    
+    private String pathName;
+    public String getPathName(){
+        return pathName;
+    }
+
+    public static void configure(String[] args){
         try{
-            maze.mazeBuilder(config.getFilename());
-            char [][] mazeArray = maze.getMazeArray();
+            logger.info("** Starting Maze Runner");
+            Configuration config = new Configuration();
+            MazeExplorer explorer = new MazeExplorer();
+            MazeConstructor maze = new MazeConstructor();
+            logger.info("**** Computing path");
+            config.getMazeFile(args);
+            char [][] mazeArray = maze.buildMaze(config.getFileName());
             explorer.traverse(mazeArray);
             logger.info("** End of MazeRunner");
         }
 
         catch(Exception e){
-            logger.error("/!\\ An error has occurred /!\\");
+            logger.error("/!\\ An error has occurred /!\\", e);
         }
     }
 
-    private String filename;
-    public String getFilename(){
-        return filename;
-    }
 
     public void getMazeFile(String[] args){
         try{
@@ -46,9 +49,27 @@ public class Configuration {
             filename = cmd.getOptionValue("i");
         }
         catch(Exception e){
-            logger.error("/!\\ An error has occurred /!\\");
+            logger.error("/!\\ An error has occurred /!\\", e);
         }
     }
+
+    // public void getMazePath(String[] args){
+    //     try{
+    //         Options options = new Options();
+    //         options.addOption("p", true, "path validator p");
+    //         CommandLineParser parser = new DefaultParser();
+
+    //         CommandLine cmd = parser.parse(options, args);
+    //         if (cmd.hasOption("p")) {
+    //             pathName = cmd.getOptionValue("p");
+    //         }
+    //     }
+    //     catch(Exception e){
+    //         logger.error("/!\\ An error has occurred /!\\", e);
+    //     }
+    
+    // }
 }
+
 
 
