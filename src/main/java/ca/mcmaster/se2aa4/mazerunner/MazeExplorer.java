@@ -13,11 +13,14 @@ public class MazeExplorer {
     private String canonicalPath = "";
     private String factorizedPath = "";
 
-    public void getCanonicalPath(){
+    public void mazePaths(char [][] mazeArray){
+        traverse(mazeArray);
         System.out.println("The canonical path is " + canonicalPath);
+        getFactorizedPath();
     }
 
-    public void getFactorizedPath(){
+
+    private void getFactorizedPath(){
         int count = 1;
         char currentChar = 'F';
         for (int i= 1; i< canonicalPath.length(); i++){
@@ -38,7 +41,6 @@ public class MazeExplorer {
 
         System.out.println("The factorized path is " + factorizedPath);
     }
-
     
     private void turnRight(){
         switch (orientation){
@@ -146,7 +148,7 @@ public class MazeExplorer {
 
 
 
-    public void traverse(char[][] mazeArray){
+    private void traverse(char[][] mazeArray){
         entrance(mazeArray);
         exit(mazeArray);
 
@@ -180,9 +182,6 @@ public class MazeExplorer {
                 canonicalPath = canonicalPath + "F";
             }
         }
-
-        getCanonicalPath();
-        getFactorizedPath();
         
     } 
 }
