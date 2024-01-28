@@ -56,15 +56,4 @@ public class MazeConstructor{
         return height;
     }
 
-    // private static void printMaze ()
-    // {
-    //     for(int y = 0; y < width; y++)
-    //     {
-    //         for(int x = 0; x < height; x++)
-    //         {
-    //             System.out.print(" " + maze[y][x]);
-    //         }
-    //         System.out.println();
-    //     }
-    // }
 }
