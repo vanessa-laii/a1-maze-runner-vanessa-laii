@@ -4,39 +4,47 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class VerifyPath {
-    private static int column;
-    private static int row;
-    private static char orientation = 'E';
-    private static int EntranceColumn = 0;
-    private static int EntranceRow;
-    private static int ExitColumn;
-    private static int ExitRow;
+    private int column;
+    private int row;
+    private char orientation = 'E';
+    private int EntranceColumn = 0;
+    private int EntranceRow;
+    private int ExitColumn;
+    private int ExitRow;
 
     private static final Logger logger = LogManager.getLogger();
 
-    public void pathChecker(char[][] mazeArray, String pathCheck, char Start){
-        traverse(mazeArray, pathCheck, Start);
+    public void pathChecker(char[][] mazeArray, String pathCheck){
+        if ((traverseWE(mazeArray, pathCheck) == false) || traverseEW(mazeArray, pathCheck) == false){
+            System.out.println("Incorrect Path");
+        }
+        else {
+            System.out.println("Correct Path");
+        }
     }
 
     private String getCanonical(String pathCheck) {
         if (pathCheck.matches("[FLR]+")) {
             return pathCheck;
         }
-
         String[] path = pathCheck.split(" ");
         StringBuilder canonicalPath = new StringBuilder();
 
         for (String step : path) {
-            char num = step.charAt(0);
-            int count = Character.getNumericValue(num);
-
-            if (count > 0) {
-                char direction = step.charAt(1);
-                for (int i = 0; i < count; i++) {
-                    canonicalPath.append(direction);
-                }
-            } 
+            if (step.length() >= 1) {
+                char num = step.charAt(0);
+                if (Character.isDigit(num)) {
+                    int count = Character.getNumericValue(num);
+                    char direction = step.charAt(1);
+                    for (int i = 0; i < count; i++) {
+                        canonicalPath.append(direction);
+                    }
+                } 
+                else canonicalPath.append(num);
+            }
         }
+        
+
         return canonicalPath.toString();
     }
 
@@ -104,76 +112,68 @@ public class VerifyPath {
         }
     }
     
-    
-
-    private static char currentLocation (char[][] mazeArray){
-        return mazeArray[row][column];
-    }
 
 
 
-    private void traverse(char[][] mazeArray, String pathCheck, char Start){
+    private boolean traverseWE(char[][] mazeArray, String pathCheck){
         pathCheck = getCanonical(pathCheck);
         entrance(mazeArray);
         exit(mazeArray);
 
-        if (Start == 'W'){
-            row = ExitRow;
-            column = ExitColumn;
-            orientation = 'W';
-            boolean walking = true;
-            
-            System.out.println("Checking from East to West");
-            for (int i=0; i<pathCheck.length(); i++){
-                if (pathCheck.charAt(i) == 'R') turnRight();
-                else if (pathCheck.charAt(i) == 'L') turnLeft();
-                else if (pathCheck.charAt(i) == 'F') forward();
-                if (currentLocation(mazeArray) == '#'){
-                    System.out.println("Hit a wall, path is incorrect");
-                    walking = false;
-                    break;
-                }
-    
+        row = EntranceRow;
+        column = EntranceColumn;
+        boolean walking = true;
+        
+        for (int i=0; i<pathCheck.length(); i++){
+            if (mazeArray[row][column] == '#'){
+                walking = false;
+                return false;
             }
-    
-            if ((walking) && (row == EntranceRow && column == EntranceColumn )){
-                System.out.println("Path verified, successfully finished maze");
-            }
-            else if (walking){
-                System.out.println("Did not reach the end of the maze, path is incorrect");
-            }
-            System.out.println("");
+            if (pathCheck.charAt(i) == 'R') turnRight();
+            else if (pathCheck.charAt(i) == 'L') turnLeft();
+            else if (pathCheck.charAt(i) == 'F') forward();
+
         }
 
-        
-        else {
-            row = EntranceRow;
-            column = EntranceColumn;
-            boolean walking = true;
-    
-            System.out.println("Checking from West to East");
-            for (int i=0; i<pathCheck.length(); i++){
-                if (pathCheck.charAt(i) == 'R') turnRight();
-                else if (pathCheck.charAt(i) == 'L') turnLeft();
-                else if (pathCheck.charAt(i) == 'F') forward();
-                //if theres two consecutive, need to rotate before moving 
-                if (currentLocation(mazeArray) == '#'){
-                    System.out.println("Hit a wall, path is incorrect");
-                    walking = false;
-                    break;
-                }
-    
-            }
-    
-            if ((walking) && (row == ExitRow && column == ExitColumn )){
-                System.out.println("Path verified, successfully finished maze");
-            }
-            else if (walking){
-                System.out.println("Did not reach the end, path is incorrect");
-            }
-            System.out.println("");
+        if ((walking) && (row == ExitRow && column == ExitColumn )){
+            return true;
         }
+        else if (walking){
+            return false;
+        }
+        return false;
+    }
         
+    //(entrance to exit)
+    private boolean traverseEW(char[][] mazeArray, String pathCheck){
+        pathCheck = getCanonical(pathCheck);
+        entrance(mazeArray);
+        exit(mazeArray);
+        orientation = 'W';
         
-    } 
-}
+        row = ExitRow;
+        column = ExitColumn;
+
+        boolean walking = true;
+        for (int i=0; i<pathCheck.length(); i++){
+            if (mazeArray[row][column] == '#'){
+                walking = false;
+                break;
+            }
+            if (pathCheck.charAt(i) == 'R') turnRight();
+            else if (pathCheck.charAt(i) == 'L') turnLeft();
+            else if (pathCheck.charAt(i) == 'F') forward();
+
+        }
+
+        if ((walking) && (row == EntranceRow && column == EntranceColumn )){
+            return true;
+        }
+        else if (walking){
+            return false;
+        }
+        return false;
+        
+    }
+} 
+

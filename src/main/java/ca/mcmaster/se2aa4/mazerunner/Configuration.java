@@ -12,56 +12,44 @@ public class Configuration {
     private static String filename;
     private static String pathCheck;
 
+
     public static void configure(String[] args){
-        try{
-            logger.info("** Starting Maze Runner");
-            Configuration config = new Configuration();
-            MazeExplorer explorer = new MazeExplorer();
-            MazeConstructor maze = new MazeConstructor();
-            logger.info("**** Computing path");
-            config.getArgs(args);
-            char [][] mazeArray = maze.buildMaze(filename);
-            explorer.mazePaths(mazeArray);
-            logger.info("** End of MazeRunner");
-        }
-
-        catch(Exception e){
-            logger.error("/!\\ An error has occurred /!\\", e);
-        }
-    }
-
-
-    public void getArgs(String[] args){
+        
         try{
             Options options = new Options();
             options.addOption("i", true, "option reacting to -i");
             options.addOption("p", true, "option reacting to -p");
             CommandLineParser parser = new DefaultParser();
-
+    
             CommandLine cmd = parser.parse(options, args);
             filename = cmd.getOptionValue("i");
-
+    
+            MazeConstructor maze = new MazeConstructor();
+            Configuration config = new Configuration();
+            MazeExplorer explorer = new MazeExplorer();
+            VerifyPath verifyPath = new VerifyPath();
+            char [][] mazeArray = maze.buildMaze(filename);
+    
             //for factorized paths, user must enter it with quotation marks
             if (cmd.hasOption("p")) {
                 pathCheck = cmd.getOptionValue("p");
-                VerifyPath verifyPath = new VerifyPath();
-                logger.info("**** Verifying path");
-                MazeConstructor maze = new MazeConstructor();
-                char [][] mazeArray = maze.buildMaze(filename);
-                verifyPath.pathChecker(mazeArray, pathCheck, 'E');
-                verifyPath.pathChecker(mazeArray, pathCheck, 'W');
-
-                logger.info("**** Path verified");
-
-
+                verifyPath.pathChecker(mazeArray, pathCheck);
             }
+            else if (cmd.hasOption("i")){
+                explorer.getFactorizedPath(mazeArray);
+            }
+    
         }
-        catch(Exception e){
-            logger.error("/!\\ An error has occurred /!\\", e);
+        catch (Exception e){
+            logger.info ("** Starting Maze Runner");
+            logger.info ("**** Reading the maze from file");
+            logger.error("/!\\ An error has occurred /!\\");
+            logger.info ("**** Computing path");
+            logger.info("PATH NOT COMPUTED");
+            logger.info ("** End of Maze Runner");
         }
         
     }   
 }
-
 
 
