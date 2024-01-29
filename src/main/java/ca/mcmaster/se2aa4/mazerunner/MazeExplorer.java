@@ -10,25 +10,27 @@ public class MazeExplorer {
     private static int EntranceRow;
     private static int ExitColumn;
     private static int ExitRow;
+
     private String canonicalPath = "";
     private String factorizedPath = "";
 
-    public void mazePaths(char [][] mazeArray){
+
+    public void getFactorizedPath(char [][] mazeArray){
         traverse(mazeArray);
-        System.out.println("The canonical path is " + canonicalPath);
-        getFactorizedPath();
+        factorizedPath();
+        System.out.println(factorizedPath);
     }
 
 
-    private void getFactorizedPath(){
+    private void factorizedPath(){
         int count = 1;
         char currentChar = 'F';
-        for (int i= 1; i< canonicalPath.length(); i++){
+        for (int i= 1; i<canonicalPath.length(); i++){
             if (canonicalPath.charAt(i) == currentChar){
                 count++;
             }
             else{
-                factorizedPath += Integer.toString(count);
+                if (count>1) factorizedPath += Integer.toString(count);
                 factorizedPath += currentChar;
                 factorizedPath += " ";
 
@@ -38,11 +40,9 @@ public class MazeExplorer {
         }
         factorizedPath += Integer.toString(count);
         factorizedPath += currentChar;
-
-        System.out.println("The factorized path is " + factorizedPath);
     }
     
-    private void turnRight(){
+    public static void turnRight(){
         switch (orientation){
             case 'N':
                 orientation = 'E';
@@ -59,7 +59,7 @@ public class MazeExplorer {
         }
     }
 
-    private void turnLeft(){
+    public static void turnLeft(){
         switch (orientation){
             case 'N':
                 orientation = 'W';
@@ -78,7 +78,7 @@ public class MazeExplorer {
 
 
 
-    private void forward(){
+    public static void forward(){
         if (orientation == 'N') row--;
         else if (orientation == 'E') column++;
         else if (orientation == 'S') row++;
@@ -106,44 +106,39 @@ public class MazeExplorer {
     }
     
     
-    private static char lookRight(char[][] mazeArray){
+    public static char lookRight(char[][] mazeArray){
         if (orientation == 'N')
             return mazeArray[row][column+1];
         else if (orientation == 'E')
             return mazeArray[row+1][column];
         else if (orientation == 'S')
             return mazeArray[row][column-1];
-        else if (orientation == 'W')
-            return mazeArray[row-1][column];
         else
-            return mazeArray[row][column];
+            return mazeArray[row-1][column];
+       
     }
 
-    private static char lookForward(char[][] mazeArray){
+    public static char lookForward(char[][] mazeArray){
         if (orientation == 'N')
             return mazeArray[row-1][column];
         else if (orientation == 'E')
             return mazeArray[row][column+1];
         else if (orientation == 'S')
             return mazeArray[row+1][column];
-        else if (orientation == 'W')
+        else 
             return mazeArray[row][column-1];
-        else
-            return mazeArray[row][column];
+
     }
 
 
-    private static char lookLeft(char[][] mazeArray){
+    public static char lookLeft(char[][] mazeArray){
         if (orientation == 'N')
             return mazeArray[row][column-1];
         else if (orientation == 'E')
             return mazeArray[row-1][column];
         else if (orientation == 'S')
             return mazeArray[row][column+1];
-        else if (orientation == 'W')
-            return mazeArray[row+1][column];
-        else
-            return mazeArray[row][column];
+        else return mazeArray[row+1][column];
     }
 
 

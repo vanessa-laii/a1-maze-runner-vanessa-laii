@@ -30,7 +30,6 @@ public class MazeConstructor{
 
         }
         catch(IOException e) {
-            logger.error("/!\\ An error has occurred /!\\", e);
         }
         return maze;
     }
@@ -41,7 +40,6 @@ public class MazeConstructor{
             width = reader.readLine().length();
         }
         catch (IOException e) {
-            logger.error("/!\\ An error has occurred /!\\", e);
         }
         return width;
     }
@@ -51,7 +49,6 @@ public class MazeConstructor{
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             while (reader.readLine() != null) height++;
         } catch (IOException e) {
-            logger.error("/!\\ An error has occurred /!\\", e);
         }
         return height;
     }
