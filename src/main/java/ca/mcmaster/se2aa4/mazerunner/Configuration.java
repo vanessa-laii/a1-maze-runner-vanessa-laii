@@ -25,7 +25,6 @@ public class Configuration {
             filename = cmd.getOptionValue("i");
     
             MazeConstructor maze = new MazeConstructor();
-            Configuration config = new Configuration();
             MazeExplorer explorer = new MazeExplorer();
             VerifyPath verifyPath = new VerifyPath();
             char [][] mazeArray = maze.buildMaze(filename);

@@ -1,7 +1,5 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class VerifyPath {
     private int column;
@@ -11,8 +9,6 @@ public class VerifyPath {
     private int EntranceRow;
     private int ExitColumn;
     private int ExitRow;
-
-    private static final Logger logger = LogManager.getLogger();
 
     public void pathChecker(char[][] mazeArray, String pathCheck){
         if ((traverseWE(mazeArray, pathCheck) == false) || traverseEW(mazeArray, pathCheck) == false){
