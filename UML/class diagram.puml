@@ -1,0 +1,89 @@
+@startuml
+!theme plain
+skinparam classFontColor automatic
+top to bottom direction
+skinparam linetype ortho
+
+class BFSSolver {
+  + BFSSolver(): 
+  + solve(Maze): Path
+}
+class CLIParser {
+  + CLIParser(String[]): 
+  + getIsSolve(): boolean
+  + getIsBaseline(): boolean
+  + parse(String[]): void
+  + getIsVerify(): boolean
+}
+interface Decision << interface >> {
+  + makeDecision(Maze, String[]): void
+}
+class DecisionBenchmark {
+  + DecisionBenchmark(): 
+  ^ makeDecision(Maze, String[]): void
+
+}
+class DecisionMazeSolver {
+  + DecisionMazeSolver(): 
+  ^ makeDecision(Maze, String[]): void
+}
+class DecisionPathValidator {
+  + DecisionPathValidator(): 
+  ^ makeDecision(Maze, String[]): void
+}
+class Maze {
+  + Maze(String): 
+  + validatePath(Path): Boolean
+  + isWall(Position): Boolean
+}
+class MazeFactory {
+  + MazeFactory(): 
+  + makeDecision(String[]): void
+  + solveMaze(String, Maze): Path
+}
+interface MazeSolver << interface >> {
+  + solve(Maze): Path
+}
+class Path {
+  + Path(String): 
+  + Path(): 
+  + getPathSteps(): List<Character>
+  + expandFactorizedStringPath(String): String
+  + getFactorizedForm(): String
+  + getCanonicalForm(): String
+  + addStep(Character): void
+}
+entity Position << record >> {
+  + Position(int, int): 
+  + move(Direction): Position
+  + add(Position): Position
+  + toString(): String
+}
+class RightHandSolver {
+  + RightHandSolver(): 
+  + solve(Maze): Path
+}
+class TremauxSolver {
+  + TremauxSolver(): 
+  + solve(Maze): Path
+}
+
+BFSSolver             "1" *-[#595959,plain]-> "maze\n1" Maze                  
+BFSSolver              -[#008200,dashed]-^  MazeSolver            
+BFSSolver              -[#595959,dashed]->  Path                  
+BFSSolver              -[#595959,dashed]->  Position              
+CLIParser             "1" *-[#595959,plain]-> "maze\n1" Maze                  
+CLIParser             "1" *-[#595959,plain]-> "verifyPath\n1" Path                  
+DecisionBenchmark      -[#008200,dashed]-^  Decision              
+DecisionMazeSolver     -[#008200,dashed]-^  Decision              
+DecisionPathValidator  -[#008200,dashed]-^  Decision              
+Maze                  "1" *-[#595959,plain]-> "start\n1" Position              
+MazeFactory            -[#595959,dashed]->  Path                  
+MazeSolver             -[#595959,dashed]->  Path                  
+RightHandSolver        -[#008200,dashed]-^  MazeSolver            
+RightHandSolver        -[#595959,dashed]->  Path                  
+TremauxSolver         "1" *-[#595959,plain]-> "maze\n1" Maze                  
+TremauxSolver          -[#008200,dashed]-^  MazeSolver            
+TremauxSolver          -[#595959,dashed]->  Path                  
+TremauxSolver          -[#595959,dashed]->  Position
+@enduml

@@ -1,5 +1,4 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/8jM7fhXE)
-# Assignment A1 - Maze Runner
+# Maze Runner 
 
   * **Student**: [VANESSA LAI](laiv3@mcmaster.ca)
   * **Program**: B. Eng. In Software Engineering
@@ -80,10 +79,8 @@ The delivered program at the end of this assignment should use the following fla
 
 - `-i MAZE_FILE`: specifies the filename to be used;
 - `-p PATH_SEQUENCE`: activates the path verification mode to validate that PATH_SEQUENCE is correct for the maze
-
-If you are also delivering the bonus, your program will react to a third flag:
-
-- `-method {tremaux, righthand}`: specifies which path computation method to use. (default is right hand)
+- `-method {tremaux, righthand, BFS}`: specifies which path computation method to use. (default is BFS)
+- `-baseline {tremaux, righthand, BFS}` : specifies which path the baseline method to use. (default is righthand)
 
 #### Examples
 
